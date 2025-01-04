@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Bienvenue sur le portail</h1>
+<form action="/select-location" method="post">
+    <select name="serviceName">
+        <option th:each="service : ${services}" th:value="${service.name}" th:text="${service.name}"></option>
+    </select>
+    <button type="submit">Continuer</button>
+</form>
+</body>
+</html>

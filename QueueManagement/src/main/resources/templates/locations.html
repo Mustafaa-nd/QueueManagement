@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Choisissez une localisation</h1>
+<form action="/get-ticket" method="post">
+    <select name="locationName">
+        <option th:each="location : ${locations}" th:value="${location.name}" th:text="${location.name}"></option>
+    </select>
+    <button type="submit">Obtenir un ticket</button>
+</form>
+</body>
+</html>
