@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tableau de bord de l'agent</title>
+</head>
+<body>
+<h1>Tableau de bord de l'agent</h1>
+<p>Agent : <span th:text="${agentName}"></span></p>
+<p>Service : <span th:text="${serviceName}"></span></p>
+<p>Localisation : <span th:text="${locationName}"></span></p>
+
+<p>Numéro actuellement traité : <span th:text="${currentProcessed}"></span></p>
+
+<h2>File d'attente</h2>
+<ul>
+    <li th:each="ticket : ${tickets}" th:text="'Ticket ' + ${ticket.ticketNumber}"></li>
+</ul>
+
+<form action="/next-client" method="post">
+    <input type="hidden" name="locationName" th:value="${locationName}"/>
+    <button type="submit">Passer au client suivant</button>
+</form>
+</body>
+</html>

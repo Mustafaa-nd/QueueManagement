@@ -1,5 +1,6 @@
 package sn.diamniadio.polytech.QueueManagement.service;
 
+import sn.diamniadio.polytech.QueueManagement.model.Agent;
 import sn.diamniadio.polytech.QueueManagement.model.Location;
 import sn.diamniadio.polytech.QueueManagement.model.Service;
 
@@ -7,41 +8,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueueService {
-    private List<Service> services = new ArrayList<>();
+    private final List<Service> services = new ArrayList<>();
+    private final List<Agent> agents = new ArrayList<>();
 
     public QueueService() {
         initializeServices();
+        initializeAgents();
     }
 
-    // Initialise les services et localisations
+    // Initialise les services et leurs localisations
     private void initializeServices() {
-        // Localisations pour chaque service
-        List<Location> seneauLocations = List.of(
-                new Location("Dakar"), new Location("Thiès")
-        );
-        List<Location> orangeLocations = List.of(
-                new Location("Dakar"), new Location("Saint-Louis")
-        );
         List<Location> senelecLocations = List.of(
-                new Location("Pikine"), new Location("Guediawaye"), new Location("Rufisque")
+                new Location("Pikine"),
+                new Location("Guédiawaye")
         );
         List<Location> freeLocations = List.of(
-                new Location("Grand-Yoff"), new Location("Mariste"), new Location("Golf")
-        );
-        List<Location> proMobileLocations = List.of(
-                new Location("Sacre-Cœur"), new Location("Golf"), new Location("Grand-Yoff")
-        );
-        List<Location> expressoLocations = List.of(
-                new Location("Mariste"), new Location("Pikine"), new Location("Guediawaye")
+                new Location("Rufisque"),
+                new Location("Grand-Yoff")
         );
 
-        // Ajout des services avec leurs localisations respectives
-        services.add(new Service("Seneau", seneauLocations));
-        services.add(new Service("Orange", orangeLocations));
         services.add(new Service("Senelec", senelecLocations));
         services.add(new Service("Free", freeLocations));
-        services.add(new Service("ProMobile", proMobileLocations));
-        services.add(new Service("Expresso", expressoLocations));
+    }
+
+    // Initialise les agents
+    private void initializeAgents() {
+        for (Service service : services) {
+            for (Location location : service.getLocations()) {
+                // Chaque service et localisation reçoit un agent unique
+                agents.add(new Agent("Agent - " + service.getName() + " - " + location.getName(), service, location));
+            }
+        }
+    }
+
+    public Agent getAgentByServiceAndLocation(String serviceName, String locationName) {
+        for (Agent agent : agents) {
+            if (agent.getService().getName().equalsIgnoreCase(serviceName) &&
+                    agent.getLocation().getName().equalsIgnoreCase(locationName)) {
+                return agent;
+            }
+        }
+        return null;
     }
 
     // Retourne tous les services
@@ -49,14 +56,14 @@ public class QueueService {
         return services;
     }
 
-    // Retourne un service par son nom
+    // Trouve un service par son nom
     public Service getServiceByName(String serviceName) {
         for (Service service : services) {
             if (service.getName().equalsIgnoreCase(serviceName)) {
                 return service;
             }
         }
-        return null;
+        return null; // Retourne null si aucun service ne correspond
     }
 
     // Trouve une localisation par son nom
@@ -68,6 +75,21 @@ public class QueueService {
                 }
             }
         }
-        return null;
+        return null; // Retourne null si aucune localisation ne correspond
+    }
+
+    // Retourne tous les agents
+    public List<Agent> getAgents() {
+        return agents;
+    }
+
+    // Retourne un agent par son nom
+    public Agent getAgentByName(String name) {
+        for (Agent agent : agents) {
+            if (agent.getName().equalsIgnoreCase(name)) {
+                return agent;
+            }
+        }
+        return null; // Retourne null si aucun agent ne correspond
     }
 }

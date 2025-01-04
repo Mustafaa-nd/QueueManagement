@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choisissez un Agent</title>
+</head>
+<body>
+<h1>Choisissez un Service et une Localisation</h1>
+<form action="/agent-dashboard" method="get">
+    <label for="service">Service :</label>
+    <select name="serviceName" id="service">
+        <option th:each="service : ${services}" th:value="${service.name}" th:text="${service.name}"></option>
+    </select>
+
+    <label for="location">Localisation :</label>
+    <select name="locationName" id="location">
+        <option th:each="location : ${locations}" th:value="${location.name}" th:text="${location.name}"></option>
+    </select>
+
+    <button type="submit">Accéder au Tableau de Bord</button>
+</form>
+</body>
+</html>
